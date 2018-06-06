@@ -12,12 +12,13 @@ public class Game {
 
     public Game() { }
 
-    public Game(String name, String genre, Integer minPlayers, Integer maxPlayers, Integer timeToPlay) {
+    public Game(String name, String genre, Integer minPlayers, Integer maxPlayers, Integer timeToPlay, Integer developerId) {
         this.name = name;
         this.genre = genre;
         this.minPlayers = minPlayers;
         this.maxPlayers = maxPlayers;
         this.timeToPlay = timeToPlay;
+        this.developerId = developerId;
     }
 
     public String getName() {

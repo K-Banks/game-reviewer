@@ -72,6 +72,6 @@ public class GameTest {
     }
 
     private Game setupGame() {
-        return new Game ("Munchkin", "Card game", 3, 6, 90);
+        return new Game ("Munchkin", "Card game", 3, 6, 90, 1);
     }
 }

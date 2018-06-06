@@ -1,4 +1,91 @@
 package dao;
 
-public class Sql2oGameDao {
+import models.Game;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
+
+import java.sql.SQLDataException;
+import java.util.List;
+
+public class Sql2oGameDao implements GameDao {
+    private final Sql2o sql2o;
+
+    public Sql2oGameDao(Sql2o sql2o) {
+        this.sql2o = sql2o;
+    }
+
+    @Override
+    public List<Game> getAll() {
+        String sql = "SELECT * FROM games";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Game.class);
+        }
+    }
+
+    @Override
+    public void add(Game game) {
+        String sql = "INSERT INTO games (name, genre, minPlayers, maxPlayers, timeToPlay) VALUES (:name, :genre, :minPlayers, :maxPlayers, :timeToPlay)";
+        try(Connection con = sql2o.open()) {
+            int id = (int) con.createQuery(sql, true)
+                    .bind(game)
+                    .executeUpdate()
+                    .getKey();
+            game.setId(id);
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public Game findById(int id) {
+        String sql = "SELECT * FROM games WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Game.class);
+        }
+    }
+
+    @Override
+    public void update(int id, String name, String genre, Integer minPlayers, Integer maxPlayers, Integer timeToPlay, Integer developerId) {
+        String sql = "UPDATE games SET (name, genre, minPlayers, maxPlayers, timeToPlay, developerId) = (:name, :genre, :minPlayers, :maxPlayers, :timeToPlay, :developerId) WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .addParameter("name", name)
+                    .addParameter("genre", genre)
+                    .addParameter("minPlayers", minPlayers)
+                    .addParameter("maxPlayers", maxPlayers)
+                    .addParameter("timeToPlay", timeToPlay)
+                    .addParameter("developerId", developerId)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public void deleteById(int id) {
+        String sql = "DELETE FROM games WHERE id = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public void clearAllGames() {
+        String sql = "DELETE FROM games";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
 }
