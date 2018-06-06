@@ -5,14 +5,14 @@ public class Game {
     private String genre;
     private Integer minPlayers;
     private Integer maxPlayers;
-    private Double timeToPlay;
+    private Integer timeToPlay;
     private Integer developerId;
     private Integer rating;
     private Integer id;
 
     public Game() { }
 
-    public Game(String name, String genre, Integer minPlayers, Integer maxPlayers, Double timeToPlay) {
+    public Game(String name, String genre, Integer minPlayers, Integer maxPlayers, Integer timeToPlay) {
         this.name = name;
         this.genre = genre;
         this.minPlayers = minPlayers;
@@ -20,5 +20,47 @@ public class Game {
         this.timeToPlay = timeToPlay;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public Integer getMinPlayers() {
+        return minPlayers;
+    }
+
+    public Integer getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public Integer getTimeToPlay() {
+        return timeToPlay;
+    }
+
+    public Integer getDeveloperId() {
+        return developerId;
+    }
+
+    public void setDeveloperId(Integer developerId) {
+        this.developerId = developerId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
 }

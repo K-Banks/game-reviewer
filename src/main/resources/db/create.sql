@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS games (
     genre VARCHAR,
     minPlayers INTEGER,
     maxPlayers INTEGER,
-    timeToPlay DOUBLE,
+    timeToPlay INTEGER,
     developerId INTEGER,
     rating INTEGER
  );
