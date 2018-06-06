@@ -47,7 +47,7 @@ public class Sql2oDeveloperDao implements DeveloperDao{
 
     @Override
     public void update(int id, String name){
-        String sql = "UPDATE developers SET (name) VALUES (:name) WHERE id=:id";
+        String sql = "UPDATE developers SET (name) = (:name) WHERE id=:id";
         try(Connection con =sql2o.open()){
             con.createQuery(sql)
                     .addParameter("name", name)
@@ -68,4 +68,16 @@ public class Sql2oDeveloperDao implements DeveloperDao{
             System.out.println(ex);
         }
     }
+
+    @Override
+    public void clearAllDevelopers(){
+        try(Connection con = sql2o.open()){
+            con.createQuery("DELETE from developers")
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
+    }
+
+
 }
