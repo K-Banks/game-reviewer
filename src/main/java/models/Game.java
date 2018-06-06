@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Objects;
+
 public class Game {
     private String name;
     private String genre;
@@ -63,5 +65,26 @@ public class Game {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(name, game.name) &&
+                Objects.equals(genre, game.genre) &&
+                Objects.equals(minPlayers, game.minPlayers) &&
+                Objects.equals(maxPlayers, game.maxPlayers) &&
+                Objects.equals(timeToPlay, game.timeToPlay) &&
+                Objects.equals(developerId, game.developerId) &&
+                Objects.equals(rating, game.rating) &&
+                Objects.equals(id, game.id);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name, genre, minPlayers, maxPlayers, timeToPlay, developerId, rating, id);
     }
 }

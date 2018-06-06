@@ -1,0 +1,17 @@
+{{#partial "content"}}
+    {{#if developer}}
+        <form action="/developers/{{developer.id}}/edit" method="post">
+            <label for="name">Edit developer name</label>
+            <input type="text" name="name" id="name" value="{{developer.name}}">
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
+    {{else}}
+        <form action="/developers/new" method="post">
+            <label for="name">Enter developer name</label>
+            <input type="text" name="name" id="name">
+            <button type="submit" class="btn btn-success">Add</button>
+        </form>
+    {{/if}}
+{{/partial}}
+
+{{> layout.hbs}}
