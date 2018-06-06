@@ -1,11 +1,14 @@
 package dao;
 
+import models.Developer;
 import models.Game;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -86,6 +89,18 @@ public class Sql2oGameDaoTest {
         assertTrue(gameDao.getAll().size()==3);
         gameDao.clearAllGames();
         assertTrue(gameDao.getAll().size()==0);
+    }
+
+    @Test
+    public void getAllGamesByDev() {
+        Game game1 = setupGame();
+        Game game2 = new Game ("Munchkin", "Card game", 3, 6, 90, 2);
+        Game game3 = setupGame();
+        gameDao.add(game1);
+        gameDao.add(game2);
+        gameDao.add(game3);
+        List<Game> games = gameDao.findGamesByDev(1);
+        assertEquals(2, games.size());
     }
 
     private Game setupGame() {

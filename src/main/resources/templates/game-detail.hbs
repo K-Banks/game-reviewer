@@ -1,0 +1,10 @@
+{{#partial "content"}}
+    <h3>{{game.name}}</h3>
+    <h4>Genre: {{game.genre}}</h4>
+    <h4>Players: {{game.minPlayers}}-{{game.maxPlayers}}</h4>
+    <h4>Time to Play: {{game.timeToPlay}} minutes</h4>
+    <a href="/developers/{{developer.id}}/games/{{game.id}}/edit">Edit</a>
+    <a href="/developers/{{developer.id}}/games/{{game.id}}/delete">Delete</a>
+{{/partial}}
+
+{{> layout.hbs}}

@@ -1,0 +1,28 @@
+{{#partial "content"}}
+    {{#if developer}}
+        <h3>{{developer.name}}'s games:</h3>
+    {{else}}
+        <h3>All games:</h3>
+    {{/if}}
+
+    {{#if games}}
+        <ul>
+            {{#each games}}
+                <li><h4>{{name}}</h4><a href="/developers/{{developerId}}/games/{{id}}">Details</a>
+                    <br>
+                    <a href="/developers/{{developerId}}/games/{{id}}/delete">Delete</a></li>
+            {{/each}}
+        </ul>
+    {{else}}
+        <h4>There are no games to display</h4>
+    {{/if}}
+
+    {{#if developer}}
+        <a href="/developers/{{developer.id}}/games/new">Add new game</a>
+    {{else}}
+        <a href="/games/new">Add new game</a>
+    {{/if}}
+
+{{/partial}}
+
+{{> layout.hbs}}

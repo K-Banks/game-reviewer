@@ -8,6 +8,7 @@ public interface GameDao {
 
     //GET ALL
     List<Game> getAll();
+    List<Game> findGamesByDev(int devId);
 
     // CREATE
     void add(Game game);

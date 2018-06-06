@@ -26,7 +26,7 @@ public class Sql2oGameDao implements GameDao {
 
     @Override
     public void add(Game game) {
-        String sql = "INSERT INTO games (name, genre, minPlayers, maxPlayers, timeToPlay) VALUES (:name, :genre, :minPlayers, :maxPlayers, :timeToPlay)";
+        String sql = "INSERT INTO games (name, genre, minPlayers, maxPlayers, timeToPlay, developerId) VALUES (:name, :genre, :minPlayers, :maxPlayers, :timeToPlay, :developerId)";
         try(Connection con = sql2o.open()) {
             int id = (int) con.createQuery(sql, true)
                     .bind(game)
@@ -86,6 +86,16 @@ public class Sql2oGameDao implements GameDao {
                     .executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);
+        }
+    }
+
+    @Override
+    public List<Game> findGamesByDev(int developerId){
+        String sql = "SELECT * FROM games WHERE developerId = :developerId";
+        try(Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("developerId", developerId)
+                    .executeAndFetch(Game.class);
         }
     }
 }

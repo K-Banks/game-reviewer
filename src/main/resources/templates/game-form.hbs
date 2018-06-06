@@ -1,0 +1,53 @@
+{{#partial "content"}}
+    {{#if game}}
+        <form action="/developers/{{developer.id}}/games/{{game.id}}/edit" method="post">
+            <label for="name">Enter game name:</label>
+            <input type="text" name="name" id="name" value="{{game.name}}"><br>
+            <label for="genre">Enter game genre:</label>
+            <input type="text" name="genre" id="genre" value="{{game.genre}}"><br>
+            <label for="minPlayers">Enter minimum number of players needed</label>
+            <input type="number" name="minPlayers" id="minPlayers" value="{{game.minPlayers}}"><br>
+            <label for="maxPlayers">Enter maximum number of players that can play</label>
+            <input type="number" name="maxPlayers" id="maxPlayers" value="{{game.maxPlayers}}"><br>
+            <label for="timeToPlay">Enter roughly how long it takes to play in minutes</label>
+            <input type="number" name="timeToPlay" id="timeToPlay" value="{{game.timeToPlay}}"><br>
+            <button type="submit" class="btn btn-success">Update</button>
+        </form>
+    {{else}}
+        {{#if noDev}}
+            <form action="/games/new" method="post">
+        {{else}}
+            <form action="/developers/{{developer.id}}/games/new" method="post">
+        {{/if}}
+
+            <label for="name">Enter game name:</label>
+            <input type="text" name="name" id="name"><br>
+            <label for="genre">Enter game genre:</label>
+            <input type="text" name="genre" id="genre"><br>
+            <label for="minPlayers">Enter minimum number of players needed</label>
+            <input type="number" name="minPlayers" id="minPlayers"><br>
+            <label for="maxPlayers">Enter maximum number of players that can play</label>
+            <input type="number" name="maxPlayers" id="maxPlayers"><br>
+            <label for="timeToPlay">Enter roughly how long it takes to play in minutes</label>
+            <input type="number" name="timeToPlay" id="timeToPlay"><br>
+            {{#if noDev}}
+
+                {{#if developers}}
+                    <label for="devId"></label>
+                    <select name="devId" id="devId">
+                        {{#each developers}}
+                            <option value="{{id}}">{{name}}</option>
+                        {{/each}}
+                    </select>
+                    <button type="submit" class="btn btn-success">Add</button>
+                {{else}}
+                    <p>There are no developers <a href="/developers/new">add</a> one now</p>
+                {{/if}}
+            {{else}}
+                <button type="submit" class="btn btn-success">Add</button>
+            {{/if}}
+        </form>
+    {{/if}}
+{{/partial}}
+
+{{> layout.hbs}}
