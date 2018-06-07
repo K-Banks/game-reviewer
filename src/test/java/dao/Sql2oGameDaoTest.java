@@ -2,6 +2,7 @@ package dao;
 
 import models.Developer;
 import models.Game;
+import models.Review;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

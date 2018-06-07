@@ -15,3 +15,10 @@ CREATE TABLE IF NOT EXISTS games (
     developerId INTEGER,
     rating INTEGER
  );
+
+ CREATE TABLE IF NOT EXISTS reviews (
+   id int PRIMARY KEY auto_increment,
+   comment VARCHAR,
+   rating INTEGER,
+   gameId INTEGER
+ );

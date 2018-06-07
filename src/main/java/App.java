@@ -1,7 +1,9 @@
 import dao.Sql2oGameDao;
 import dao.Sql2oDeveloperDao;
+import dao.Sql2oReviewDao;
 import models.Developer;
 import models.Game;
+import models.Review;
 import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -21,6 +23,7 @@ public class App {
         Sql2o sql2o = new Sql2o(connectionString, "", "");
         Sql2oGameDao gameDao = new Sql2oGameDao(sql2o);
         Sql2oDeveloperDao developerDao = new Sql2oDeveloperDao(sql2o);
+        Sql2oReviewDao reviewDao = new Sql2oReviewDao(sql2o);
 
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
@@ -129,6 +132,8 @@ public class App {
             model.put("developer", currentDeveloper);
             Game currentGame = gameDao.findById(gameId);
             model.put("game", currentGame);
+            List<Review> reviews = reviewDao.getReviewsByGameId(gameId);
+            model.put("reviews", reviews);
             return new ModelAndView(model, "game-detail.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -200,6 +205,55 @@ public class App {
         get("/games/delete", (request, response) -> {
             gameDao.clearAllGames();
             response.redirect("/");
+            return null;
+        }, new HandlebarsTemplateEngine());
+
+        //POST new comment from game detail page
+        post("/developers/:devId/games/:gameId/comments/new", (request, response) -> {
+            String newComment = request.queryParams("comment");
+            int newRating = Integer.parseInt(request.queryParams("rating"));
+            int gameId = Integer.parseInt(request.params("gameId"));
+            int devId = Integer.parseInt(request.params("devId"));
+            Review newReview = new Review(newComment, newRating, gameId);
+            reviewDao.add(newReview);
+            response.redirect("/developers/" + devId + "/games/" + gameId);
+            return null;
+        }, new HandlebarsTemplateEngine());
+
+        //GET delete review
+        get("/developers/:devId/games/:gameId/comments/:id/delete", (request, response) -> {
+            int id = Integer.parseInt(request.params("id"));
+            reviewDao.deleteById(id);
+            int gameId = Integer.parseInt(request.params("gameId"));
+            int devId = Integer.parseInt(request.params("devId"));
+            response.redirect("/developers/" + devId + "/games/" + gameId);
+            return null;
+        }, new HandlebarsTemplateEngine());
+
+        //GET edit review page
+        get("/developers/:devId/games/:gameId/comments/:id", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int devId = Integer.parseInt(request.params("devId"));
+            int gameId = Integer.parseInt(request.params("gameId"));
+            int commentId = Integer.parseInt(request.params("id"));
+            Review currentReview = reviewDao.findById(commentId);
+            model.put("review", currentReview);
+            List<Developer> developers = developerDao.getAll();
+            model.put("game", gameDao.findById(gameId));
+            model.put("developer", developerDao.findById(devId));
+            model.put("developers", developers);
+            return  new ModelAndView(model, "comment-detail.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        //POST edit review
+        post("/developers/:devId/games/:gameId/comments/:id/edit", (request, response) -> {
+            int devId = Integer.parseInt(request.params("devId"));
+            int gameId = Integer.parseInt(request.params("gameId"));
+            int commentId = Integer.parseInt(request.params("id"));
+            String newComment = request.queryParams("comment");
+            int newRating = Integer.parseInt(request.queryParams("rating"));
+            reviewDao.update(commentId, newComment, newRating, gameId);
+            response.redirect("/developers/" + devId + "/games/" + gameId);
             return null;
         }, new HandlebarsTemplateEngine());
     }
