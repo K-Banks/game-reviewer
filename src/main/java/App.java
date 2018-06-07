@@ -8,9 +8,7 @@ import org.sql2o.Sql2o;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 
@@ -209,6 +207,7 @@ public class App {
             return null;
         }, new HandlebarsTemplateEngine());
 
+
         //POST sort game list
         post("/games/sort", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
@@ -270,6 +269,37 @@ public class App {
             gameDao.updateRating(gameId, reviewDao.getRatingsByGameId(gameId));
             response.redirect("/developers/" + devId + "/games/" + gameId);
             return null;
+        }, new HandlebarsTemplateEngine());
+
+        //GET get random game
+        get("/lucky", (request, response) -> {
+            Random randomGenerator = new Random();
+            List<Game> games = gameDao.getAll();
+            int gameIndex = randomGenerator.nextInt(games.size());
+            Game currentGame = games.get(gameIndex);
+            response.redirect("/developers/" + currentGame.getDeveloperId() + "/games/" + currentGame.getId());
+            return null;
+        }, new HandlebarsTemplateEngine());
+
+        //POST search in games
+        post("/search", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            List<Developer> developers = developerDao.getAll();
+            model.put("developers", developers);
+
+            String searchTerm = request.queryParams("search").toLowerCase();
+            List<Game> allGames = gameDao.getAll();
+            List<Object> searchResults = new ArrayList<>();
+            for (Game game: allGames) {
+                if (game.getName().toLowerCase().contains(searchTerm)) {
+                    searchResults.add(game);
+                } else if (game.getGenre().toLowerCase().contains(searchTerm)) {
+                    searchResults.add(game);
+                }
+            }
+            model.put("games", searchResults);
+
+            return new ModelAndView(model, "developer-detail.hbs");
         }, new HandlebarsTemplateEngine());
     }
 }
