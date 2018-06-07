@@ -99,6 +99,19 @@ public class Sql2oReviewDaoTest {
         assertEquals(2, reviews.size());
     }
 
+    @Test
+    public void getRatingsByGameId() {
+        Review review1 = setupReview();
+        Review review2 = setupReview();
+        Review review3 = new Review("SUCK IT", 2, 2);
+        reviewDao.add(review1);
+        reviewDao.add(review2);
+        reviewDao.add(review3);
+        List<Integer> ratings = reviewDao.getRatingsByGameId(1);
+        System.out.print(ratings);
+        assertEquals(2, ratings.size());
+    }
+
     public Review setupReview(){
         return new Review("This game rules!", 4, 1);
     }

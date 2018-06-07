@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -102,6 +103,19 @@ public class Sql2oGameDaoTest {
         gameDao.add(game3);
         List<Game> games = gameDao.findGamesByDev(1);
         assertEquals(2, games.size());
+    }
+
+    @Test
+    public void updateRating_calculatesAndUpdatesRating() {
+        Game game = setupGame();
+        gameDao.add(game);
+        List<Integer> ratings = new ArrayList<Integer>();
+        ratings.add(3);
+        ratings.add(4);
+        gameDao.updateRating(game.getId(), ratings);
+        int newRating = gameDao.findById(1).getRating();
+        assertNotEquals(null, newRating);
+        assertEquals(3, newRating);
     }
 
     private Game setupGame() {

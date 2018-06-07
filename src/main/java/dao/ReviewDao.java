@@ -13,6 +13,7 @@ public interface ReviewDao {
     // READ
     Review findById(int id);
     List<Review> getReviewsByGameId(int gameId);
+    List<Integer> getRatingsByGameId(int gameId);
 
     //UPDATE
     void update(int id, String comment, int rating, int gameId);

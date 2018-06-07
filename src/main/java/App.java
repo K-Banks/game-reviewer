@@ -134,6 +134,7 @@ public class App {
             model.put("game", currentGame);
             List<Review> reviews = reviewDao.getReviewsByGameId(gameId);
             model.put("reviews", reviews);
+            model.put("reviewCount", reviews.size());
             return new ModelAndView(model, "game-detail.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -216,6 +217,7 @@ public class App {
             int devId = Integer.parseInt(request.params("devId"));
             Review newReview = new Review(newComment, newRating, gameId);
             reviewDao.add(newReview);
+            gameDao.updateRating(gameId, reviewDao.getRatingsByGameId(gameId));
             response.redirect("/developers/" + devId + "/games/" + gameId);
             return null;
         }, new HandlebarsTemplateEngine());
@@ -226,6 +228,7 @@ public class App {
             reviewDao.deleteById(id);
             int gameId = Integer.parseInt(request.params("gameId"));
             int devId = Integer.parseInt(request.params("devId"));
+            gameDao.updateRating(gameId, reviewDao.getRatingsByGameId(gameId));
             response.redirect("/developers/" + devId + "/games/" + gameId);
             return null;
         }, new HandlebarsTemplateEngine());
@@ -253,6 +256,7 @@ public class App {
             String newComment = request.queryParams("comment");
             int newRating = Integer.parseInt(request.queryParams("rating"));
             reviewDao.update(commentId, newComment, newRating, gameId);
+            gameDao.updateRating(gameId, reviewDao.getRatingsByGameId(gameId));
             response.redirect("/developers/" + devId + "/games/" + gameId);
             return null;
         }, new HandlebarsTemplateEngine());

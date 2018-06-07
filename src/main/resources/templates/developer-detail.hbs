@@ -8,9 +8,16 @@
     {{#if games}}
         <ul>
             {{#each games}}
-                <li><h4>{{name}}</h4><a href="/developers/{{developerId}}/games/{{id}}">Details</a>
+                <li><h4>{{name}}</h4>
+                    {{#if rating}}
+                        <h5>Rating: {{rating}}/5</h5>
+                    {{else}}
+                        <h5>Rating: No reviews yet</h5>
+                    {{/if}}
+                    <a href="/developers/{{developerId}}/games/{{id}}">Details</a>
                     <br>
-                    <a href="/developers/{{developerId}}/games/{{id}}/delete">Delete</a></li>
+                    <a href="/developers/{{developerId}}/games/{{id}}/delete">Delete</a>
+                </li>
             {{/each}}
         </ul>
     {{else}}

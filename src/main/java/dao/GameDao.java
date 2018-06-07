@@ -18,6 +18,7 @@ public interface GameDao {
 
     //UPDATE
     void update(int id, String name, String genre, Integer minPlayers, Integer maxPlayers, Integer timeToPlay, Integer developerId);
+    void updateRating(int id, List<Integer> ratings);
 
     // DELETE
     void deleteById(int id);

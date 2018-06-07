@@ -92,4 +92,14 @@ public class Sql2oReviewDao implements ReviewDao{
                     .executeAndFetch(Review.class);
         }
     }
+
+    @Override
+    public List<Integer> getRatingsByGameId(int gameId) {
+        String sql = "SELECT rating FROM reviews WHERE gameId = :gameId";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("gameId", gameId)
+                    .executeAndFetch(Integer.class);
+        }
+    }
 }

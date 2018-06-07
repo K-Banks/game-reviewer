@@ -1,5 +1,11 @@
 {{#partial "content"}}
     <h3>{{game.name}}</h3>
+    {{#if game.rating}}
+        <h4>{{reviewCount}} reviews</h4>
+        <h4>Rating: {{game.rating}}/5</h4>
+    {{else}}
+        <h4>Rating: No reviews yet</h4>
+    {{/if}}
     <h4>Genre: {{game.genre}}</h4>
     <h4>Players: {{game.minPlayers}}-{{game.maxPlayers}}</h4>
     <h4>Time to Play: {{game.timeToPlay}} minutes</h4>

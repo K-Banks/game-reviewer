@@ -98,4 +98,26 @@ public class Sql2oGameDao implements GameDao {
                     .executeAndFetch(Game.class);
         }
     }
+
+    @Override
+    public void updateRating(int id, List<Integer> ratings) {
+        Integer overallRating = 0;
+        if(ratings.size()>0){
+            Integer ratingSum = 0;
+            for(Integer rating: ratings){
+                ratingSum += rating;
+            }
+            overallRating = (int) Math.floor(ratingSum / ratings.size());
+        }
+
+        String sql = "UPDATE games SET (rating) = (:rating) WHERE id=:id";
+        try(Connection con = sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("rating", overallRating)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Sql2oException ex){
+            System.out.println(ex);
+        }
+    }
 }
