@@ -9,6 +9,7 @@ public interface GameDao {
     //GET ALL
     List<Game> getAll();
     List<Game> findGamesByDev(int devId);
+    List<Game> sort(String sort);
 
     // CREATE
     void add(Game game);

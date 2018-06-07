@@ -120,4 +120,13 @@ public class Sql2oGameDao implements GameDao {
             System.out.println(ex);
         }
     }
+
+    @Override
+    public List<Game> sort(String sort) {
+        String sql = "SELECT * FROM games ORDER BY " + sort;
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .executeAndFetch(Game.class);
+        }
+    }
 }

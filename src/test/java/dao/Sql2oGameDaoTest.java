@@ -118,6 +118,17 @@ public class Sql2oGameDaoTest {
         assertEquals(3, newRating);
     }
 
+    @Test
+    public void sort_returnsAllGamesSorted() {
+        Game game1 = setupGame();
+        Game game2 = new Game ("Ascension", "Card game", 2, 4, 90, 2);
+        gameDao.add(game1);
+        gameDao.add(game2);
+        List<Game> games = gameDao.sort("name");
+        assertEquals(2, games.size());
+        assertEquals("Ascension", games.get(0).getName());
+    }
+
     private Game setupGame() {
         return new Game ("Munchkin", "Card game", 3, 6, 90, 1);
     }

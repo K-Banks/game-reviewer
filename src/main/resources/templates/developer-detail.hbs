@@ -2,6 +2,17 @@
     {{#if developer}}
         <h3>{{developer.name}}'s games:</h3>
     {{else}}
+        <form action="/games/sort" method="post">
+            <label for="sort">Sort by</label>
+            <select name="sort" id="sort">
+                <option value="name">Name</option>
+                <option value="rating">Rating</option>
+                <option value="minPlayers">Minimum Players</option>
+                <option value="maxPlayers">Maximum Players</option>
+                <option value="timeToPlay">Time to Play</option>
+            </select>
+            <button type="Submit" class="btn btn-success">Sort</button>
+        </form>
         <h3>All games:</h3>
     {{/if}}
 

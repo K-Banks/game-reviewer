@@ -209,6 +209,17 @@ public class App {
             return null;
         }, new HandlebarsTemplateEngine());
 
+        //POST sort game list
+        post("/games/sort", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            List<Developer> developers = developerDao.getAll();
+            model.put("developers", developers);
+            String sortBy = request.queryParams("sort");
+            List<Game> games = gameDao.sort(sortBy);
+            model.put("games", games);
+            return new ModelAndView(model, "developer-detail.hbs");
+        }, new HandlebarsTemplateEngine());
+
         //POST new comment from game detail page
         post("/developers/:devId/games/:gameId/comments/new", (request, response) -> {
             String newComment = request.queryParams("comment");
