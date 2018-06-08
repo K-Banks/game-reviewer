@@ -129,6 +129,19 @@ public class Sql2oGameDaoTest {
         assertEquals("Ascension", games.get(0).getName());
     }
 
+    @Test
+    public void searchGames_returnsGamesMatchingSearchTerm() {
+        Game game1 = setupGame();
+        Game game2 = new Game ("Ascension", "Card game", 2, 4, 90, 2);
+        Game game3 = new Game ("Munchkin", "Card game", 3, 6, 90, 2);
+        gameDao.add(game1);
+        gameDao.add(game2);
+        gameDao.add(game3);
+//        assertEquals(2,gameDao.searchGames("Munchkin").size());
+        assertEquals(2,gameDao.searchGames("kin").size());
+//        assertEquals(3, gameDao.searchGames("game").size());
+    }
+
     private Game setupGame() {
         return new Game ("Munchkin", "Card game", 3, 6, 90, 1);
     }

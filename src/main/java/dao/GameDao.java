@@ -10,6 +10,7 @@ public interface GameDao {
     List<Game> getAll();
     List<Game> findGamesByDev(int devId);
     List<Game> sort(String sort);
+    List<Game> searchGames(String searchTerm);
 
     // CREATE
     void add(Game game);

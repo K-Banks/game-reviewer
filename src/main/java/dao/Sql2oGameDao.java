@@ -129,4 +129,17 @@ public class Sql2oGameDao implements GameDao {
                     .executeAndFetch(Game.class);
         }
     }
+
+    @Override
+    public List<Game> searchGames(String searchTerm) {
+//        String secondTerm = searchTerm + "%";
+//        String thirdTerm = "%" + searchTerm;
+        String sql = "SELECT * FROM games WHERE name LIKE :searchTerm";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("searchTerm", searchTerm)
+//                    .addParameter("secondTerm", secondTerm)
+                    .executeAndFetch(Game.class);
+        }
+    }
 }
